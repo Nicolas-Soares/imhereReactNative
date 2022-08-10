@@ -1,6 +1,8 @@
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 
+import User from '../../components/User'
+
 export default function Home() {
   function addUser() {
    console.log("first");
@@ -23,6 +25,9 @@ export default function Home() {
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
+
+      <User />
+      <User />
     </View>
   );
 }
