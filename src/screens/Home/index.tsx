@@ -1,11 +1,47 @@
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  Alert
+} from "react-native";
 import { styles } from "./styles";
-
-import User from '../../components/User'
+import User from "../../components/User";
 
 export default function Home() {
+  const participants = [
+    "Nicolas",
+    "John",
+    "Perro",
+    "Cleiton",
+    "Fernando",
+    "Noronha",
+    "Machenzie",
+    "Foka Preto",
+    "Torneira",
+    "Altair",
+    "Diamante",
+    "José",
+    "Josiney",
+  ];
+
   function addUser() {
-   console.log("first");
+    console.log("first");
+  }
+
+  function removeUser(username: string) {
+    Alert.alert('Remover', `Remover o participante ${username}?`, [
+      {
+        text: 'Sim',
+        onPress: () => Alert.alert('Participante removido!')
+      },
+      {
+        text: 'Não',
+        style: 'cancel'
+      }
+    ])
   }
 
   return (
@@ -26,8 +62,19 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
-      <User />
-      <User />
+      <FlatList
+        data={participants}
+        keyExtractor={(participant) => participant}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <User key={item} username={item} onRemove={() => removeUser(item)} />
+        )}
+        ListEmptyComponent={() => (
+          <Text style={styles.emptyListText}>
+            Nenhum participante foi adicionado ainda!
+          </Text>
+        )}
+      />
     </View>
   );
 }
