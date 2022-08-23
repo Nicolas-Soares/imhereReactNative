@@ -3,45 +3,28 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   FlatList,
   Alert
 } from "react-native";
 import { styles } from "./styles";
 import User from "../../components/User";
+import { useState } from "react";
 
 export default function Home() {
-  const participants = [
-    "Nicolas",
-    "John",
-    "Perro",
-    "Cleiton",
-    "Fernando",
-    "Noronha",
-    "Machenzie",
-    "Foka Preto",
-    "Torneira",
-    "Altair",
-    "Diamante",
-    "José",
-    "Josiney",
-  ];
+  const [participants, setParticipants] = useState<string[]>([])
+  const [userName, setUsername] = useState('')
 
   function addUser() {
-    console.log("first");
+    if (participants.includes(userName)) {
+      return Alert.alert('User already exists')
+    }
+
+    setParticipants(prevState => [...prevState, userName])
+    setUsername('')
   }
 
   function removeUser(username: string) {
-    Alert.alert('Remover', `Remover o participante ${username}?`, [
-      {
-        text: 'Sim',
-        onPress: () => Alert.alert('Participante removido!')
-      },
-      {
-        text: 'Não',
-        style: 'cancel'
-      }
-    ])
+    setParticipants(prevState => prevState.filter(user => user !== username))
   }
 
   return (
@@ -55,6 +38,8 @@ export default function Home() {
           style={styles.textInput}
           placeholder="Digite o seu nome..."
           placeholderTextColor="#00ff9d58"
+          onChangeText={setUsername}
+          value={userName}
         />
 
         <TouchableOpacity style={styles.button} onPress={addUser}>
